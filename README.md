@@ -11,4 +11,8 @@ As a group, compare your Python codes for homeworks 1 – 4 with those of the ot
 
 ## Work plan
 
-something
+[] Compile/Convert  all well log data in Volve field into ASCII LAS file using Schlumberger Log Data Toolbox
+[] Find/Compile all equation constants suitable for Volve field
+[] Write a general LAS reader to read all well logs in Volve field
+[] Write a general and verified computation tool to calculate all parameters (S1, S2, S3, UCS, E, ν, Pp, and ϕ) in HW1-3
+[] Write a spreadsheet exporter to output above parameters into spreadsheet.
