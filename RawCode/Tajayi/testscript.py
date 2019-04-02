@@ -5,30 +5,30 @@ Created on Thu Mar 28 13:02:26 2019
 @author: tajayi3
 """
 
-from seismicData import *
+from wellPlot import *
 
-#tre = wellPlot("GOMData.txt",1.7,1,1000)
-#SvGOM = tre.vertical_Stress()
-#HydroGOM = tre.hydro_Pressure()
-#gradGOM = tre.gradVSD()
-#poroGOM = tre.porosity()
-#
-#
-#tre2 = wellPlot("PythonBarnett.txt",1.8778)
-#SvBarnett = tre2.vertical_Stress()
-#HydroBarnett = tre2.hydro_Pressure()
-#gradBarnett = tre2.gradVSD()
-#poroBarnett = tre2.porosity()
-#blockBarnett = tre2.block_den(1402,9692,9807,12157)
-#
-#tre3 = wellPlot("VolvePython.txt",1.8778)
-#SvVolve = tre3.vertical_Stress()
-#HydroVolve = tre3.hydro_Pressure()
-#gradVolve = tre3.gradVSD()
-#poroVolve = tre3.porosity()
+tre = wellPlot("GOMData.txt",1.7,1,1000)
+SvGOM = tre.vertical_Stress()
+HydroGOM = tre.hydro_Pressure()
+gradGOM = tre.gradVSD()
+poroGOM = tre.porosity()
 
-tre = seismicData("HW3Data.txt",1.7)
-HydroBarnett = tre.hydro_Pressure()
-poro = tre.porosity()
-shear = tre.shearwave()
-comp = tre.compwave()
+
+tre2 = wellPlot("PythonBarnett.txt",1.8778)
+SvBarnett = tre2.vertical_Stress()
+HydroBarnett = tre2.hydro_Pressure()
+gradBarnett = tre2.gradVSD()
+poroBarnett = tre2.porosity()
+blockBarnett = tre2.block_den(1402,9692,9807,12157)
+
+tre3 = wellPlot("VolvePython.txt",1.8778)
+SvVolve = tre3.vertical_Stress()
+HydroVolve = tre3.hydro_Pressure()
+gradVolve = tre3.gradVSD()
+poroVolve = tre3.porosity()
+
+#tre = seismicData("HW3Data.txt",1.7)
+#HydroBarnett = tre.hydro_Pressure()
+#poro = tre.porosity()
+#shear = tre.shearwave()
+#comp = tre.compwave()
