@@ -4,7 +4,7 @@ This includes all well log data from Volve field
 
 | WellName |      LAS      |  RHOB |
 |----------|-------------  |------ |
-| 15_9-F4  |   <li>- [x] </li>       | - [x] |
+| 15_9-F4  |   :heavy_check_mark:      | :heavy_check_mark: |
 | 15_9-F1B |    centered   |   $12 |
 | 15_9-F5 | right-aligned |    $1 |
 | 15_9-F1C | right-aligned |    $1 |
