@@ -17,7 +17,7 @@
 ### Fluid & Rock Properties in Volve Field
 
 | Variables					|      Value      |  Unit |  Reference |
-|----------					|---------------- |------------ |--|--|
+|----------					|---------------- |------------ |--|
 | Water Density ($\rho_b$)  |1.0| g/cc |Ref.3|
 | Grain Density ($\rho_b$)  |2.65| g/cc |Ref.3|
 
