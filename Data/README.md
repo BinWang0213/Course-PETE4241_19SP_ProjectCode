@@ -14,6 +14,9 @@
 | 15_9-F15C| :heavy_check_mark:| :heavy_check_mark: |:heavy_check_mark:|:x:|
 | 15_9-F15D| :heavy_check_mark:| :heavy_check_mark: |:x:|:x:|
 
-## Work plan
+### Well Log reference
+
+1. https://www.spec2000.net/05-abrev-log.htm
+2. https://www.spec2000.net/05-logaliastable.htm
 
 something
