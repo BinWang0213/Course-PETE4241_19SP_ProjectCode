@@ -25,7 +25,7 @@
 ### Petrophysics correlations for Volve Field
 | Variables					|     Equation    | Unit|  Reference |
 |----------					|---------------- |------------ |--|
-| UCS  |$e^{-6.36+2.45log(0.86V_p-1172)}$|V_p(m/s), UCS(MPa)			|Ref.4|
+| UCS  |![equation](https://latex.codecogs.com/png.latex?%24e%5E%7B-6.36&plus;2.45log%280.86V_p-1172%29%7D%24)|V_p(m/s), UCS(MPa)			|Ref.4|
 | $\phi$  |TODO|TODO		|Ref.3|
 
 ### References
