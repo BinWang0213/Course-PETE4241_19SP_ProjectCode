@@ -14,9 +14,24 @@
 | 15_9-F15C| :heavy_check_mark:| :heavy_check_mark: |:heavy_check_mark:|:x:|
 | 15_9-F15D| :heavy_check_mark:| :heavy_check_mark: |:x:|:x:|
 
-### Well Log reference
+### Fluid & Rock Properties in Volve Field
+
+| Variables					|      Value      |  Unit |  Reference |
+|----------					|---------------- |------------ |--|--|
+| Water Density ($\rho_b$)  |1.0| g/cc |Ref.3|
+| Grain Density ($\rho_b$)  |2.65| g/cc |Ref.3|
+
+
+### Petrophysics correlations for Volve Field
+| Variables					|     Equation    | Unit|  Reference |
+|----------					|---------------- |------------ |--|
+| UCS  |$e^{-6.36+2.45log(0.86V_p-1172)}$|V_p(m/s), UCS(MPa)			|Ref.4|
+| $\phi$  |TODO|TODO		|Ref.3|
+
+### References
 
 1. https://www.spec2000.net/05-abrev-log.htm
 2. https://www.spec2000.net/05-logaliastable.htm
-
-something
+3. Sleipner Øst and Volve Model Hugin and Skagerrak Formation Petrophysical Evaluation, 2006 
+4. Kalani, M., 2018. Multiscale seal characterization in the North Sea Implications from clay
+sedimentology, well logs interpretation and seismic analyses
