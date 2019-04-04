@@ -18,15 +18,15 @@
 
 | Variables					|      Value      |  Unit |  Reference |
 |----------					|---------------- |------------ |--|
-| Water Density ($\rho_b$)  |1.0| g/cc |Ref.3|
-| Grain Density ($\rho_b$)  |2.65| g/cc |Ref.3|
+| Water Density (![equation](https://latex.codecogs.com/png.latex?%24%5Crho_%7Bb%7D%24))  |1.0| g/cc |Ref.3|
+| Grain Density (![equation](https://latex.codecogs.com/png.latex?%24%5Crho_%7Bma%7D%24))  |2.65| g/cc |Ref.3|
 
 
 ### Petrophysics correlations for Volve Field
 | Variables					|     Equation    | Unit|  Reference |
 |----------					|---------------- |------------ |--|
 | UCS  |![equation](https://latex.codecogs.com/png.latex?%24e%5E%7B-6.36&plus;2.45log%280.86V_p-1172%29%7D%24)|V_p(m/s), UCS(MPa)			|Ref.4|
-| $\phi$  |TODO|TODO		|Ref.3|
+| ![equation](https://latex.codecogs.com/png.latex?%24%5Cphi%24)  |TODO|TODO		|Ref.3|
 
 ### References
 
