@@ -121,7 +121,11 @@ def printLas(param):
     print("Common Depth=",param.CommonDepth)
 
     #print las information
-    showTables([param.CurveNames,param.AvailDepth,param.MinMaxVal,param.Units,param.Comments],
-       XLables=["Curves","Available Depth (Non-NULL)","Raw Min/Max Val","Unit","Comments"],preview=len(param.Units)+5)
+    if(type_of_script()=="terminal"):
+        showTable([param.CurveNames,param.AvailDepth,param.MinMaxVal,param.Units,param.Comments],
+        ["Curves","Available Depth (Non-NULL)","Raw Min/Max Val","Unit","Comments"])
+    else:
+        showTables([param.CurveNames,param.AvailDepth,param.MinMaxVal,param.Units,param.Comments],
+        XLables=["Curves","Available Depth (Non-NULL)","Raw Min/Max Val","Unit","Comments"],preview=len(param.Units)+5)
 
 

@@ -17,6 +17,8 @@ for log in LogFiles[::2]: #We only need INPUT LAS file for each well
     WellLogs.append(log)
     WellLogParams.append(param)
 
+plm.printLas(WellLogParams[5]) #print las summary table
+
 #Output all log data into picture
 OutputFolder="./output/"
 os.makedirs(OutputFolder, exist_ok=True)

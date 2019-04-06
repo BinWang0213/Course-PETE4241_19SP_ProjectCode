@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# https://bitbucket.org/astanin/python-tabulate/overview
 
 """Pretty-print tabular data."""
 
