@@ -4,7 +4,7 @@ import numpy as np
 sys.path.append(os.path.realpath('..'))
 
 from .lasio import read
-from .utils import showTables, findIntersection
+from .utils import showTable,showTables,findIntersection,type_of_script
 
 
 #Unit system
@@ -60,8 +60,10 @@ def LasFinder(path="../Data/"):
     #print relative path looks better than absolute path
     relative_paths = [os.path.relpath(path, os.getcwd()) for path in fnames.values()]
     if(len(fnames)>0):
-        showTables([list(fnames.keys()),relative_paths],XLables=["FileName","Location"],preview=len(fnames)+5)
-    
+        if(type_of_script()=="terminal"):
+            showTable([list(fnames.keys()),relative_paths],["FileName","Location"])
+        else:
+            showTables([list(fnames.keys()),relative_paths],XLables=["FileName","Location"],preview=len(fnames)+5)
 
     return list(fnames.values())
 
@@ -78,7 +80,7 @@ def ReadLas(fname):
     param.NULL_Val=Data.well.NULL.value
     param.WellName=Data.well.well.value
 
-    #Show all available curves
+    #Collect useful information for plot and post-processing
     for key,value in Data.items():
         index=np.where(np.isnan(value)==False)[0]
         param.NonNanDict[key]=index
@@ -105,9 +107,12 @@ def ReadLas(fname):
 
     print("Done!")
 
+    #Create a plm_param copy in lasio class
+    Data.plm_param=param
     return Data,param
 
 def printLas(param):
+    #Print las param
     print("[LAS Info]")
     print("Well Name=",param.WellName)
     print("Start/Step/End Depth=(%lf:%lf:%lf)"

@@ -3,6 +3,18 @@ import numpy as np
 import pandas as pd
 
 from .interval import interval
+from .tabulate import tabulate
+
+
+def type_of_script():
+    try:
+        ipy_str = str(type(get_ipython()))
+        if 'zmqshell' in ipy_str:
+            return 'jupyter'
+        if 'terminal' in ipy_str:
+            return 'ipython'
+    except:
+        return 'terminal'
 
 #Publication quality figure paramters
 _params = {'font.family': 'sans-serif',
@@ -49,6 +61,12 @@ colors = ['b', 'r','k', 'g', 'c']
 TabColor=['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive', 'tab:cyan']
 markers=['o', 's', 'v', '^', 'D', '<', '>', 'p', 'h']
 
+
+def showTable(cols=[],Headers=[]):
+    df = pd.DataFrame(cols)
+    df = df.transpose()
+    df.columns = Headers
+    print(tabulate(df, headers='keys', tablefmt='psql',showindex='never'))
 
 def showTables(X,Y=[],XLables=[],YLabels=[],preview=10):
     from IPython.display import display_html,display

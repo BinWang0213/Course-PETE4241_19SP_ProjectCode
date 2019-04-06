@@ -28,4 +28,5 @@ from . import lasio
 
 from .IO import *
 from .plot import *
+from .tabulate import *
 

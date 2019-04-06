@@ -30,29 +30,40 @@ def setCurveLim(ax,Curve,CurveName):
     print("\t",CurveName,"Corrected Min/Max Val",lim)
     ax.set_xlim(lim)
 
-def plotLogs(LogData,CurveNames=[],Depth_Range=[],NumFigCurves=2):
+def plotLogs(LogData,CurveNames,Depth_Range=None,NumFigCurves=2):
     #https://github.com/petroGG/Basic-Well-Log-Interpretation/blob/master/Basic%20well%20log%20interpretation.ipynb
     #Up to triple Log plot generator
 
+    param=LogData.plm_param
     #Remove non-existed name
-    AvailNames= [c.mnemonic for c in LogData.curves]
-    #print(AvailNames)
-    CurveNames=list(set(AvailNames).intersection(CurveNames))
-    #print(CurveNames)
+    AvailNames=param.CurveNames
+    PlotNames=[x for x in CurveNames if x in AvailNames]
+    
+    #Find reasonable depth range for all available variables
+    PlotNamesIdx=[AvailNames.index(name) for name in PlotNames]
+    AvailDepths=[param.AvailDepth[idx] for idx in PlotNamesIdx]
+    if Depth_Range is None:
+        Depth_Range=findUnion(AvailDepths)
+        print("\tAuto Depth Range=",Depth_Range,"for ",PlotNames)
+    #print(PlotNames,AvailNames)
+    #print(PlotNamesIdx,AvailDepths)
+
 
     setPlotStyle()
-    NumCurves=len(CurveNames)
+    NumCurves=len(PlotNames)
     top_depth,bottom_depth=Depth_Range
     Data=LogData
 
     #Prepare the figure format
-    NumCols=np.ceil(len(CurveNames)/NumFigCurves)
+    NumCols=np.ceil(NumCurves/NumFigCurves)
     NumCols=int(NumCols)
     UnitFigWidth=3.5
     UnitFigHeight=10
     fig, axs = plt.subplots(nrows=1, ncols=NumCols, figsize=(UnitFigWidth*NumCols,UnitFigHeight), sharey=True)
     if(NumCols==1):  axs=[axs]
-    fig.subplots_adjust(top=0.75,wspace=0.1)
+    fig.suptitle("Well %s\n%s"%(param.WellName,param.fname))
+    fig.subplots_adjust(top=0.8,wspace=0.1)
+
 
     #General setting for all axis    
     for ax in axs:
@@ -71,7 +82,7 @@ def plotLogs(LogData,CurveNames=[],Depth_Range=[],NumFigCurves=2):
     for col in range(NumCols):#col by col plot
         for i in range(NumFigCurves):
             if(curveID>=NumCurves): break
-            CurveName=CurveNames[curveID]
+            CurveName=PlotNames[curveID]
             Curve=Data[CurveName][index]
             color=ColorScheme[curveID]
             #print(CurveName,Depth,np.nanmin(Curve),np.nanmax(Curve))
