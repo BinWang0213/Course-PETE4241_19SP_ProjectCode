@@ -20,7 +20,8 @@
 |----------					|---------------- |------------ |--|
 | Water Density (![equation](https://latex.codecogs.com/png.latex?%24%5Crho_%7Bb%7D%24))  |1.0| g/cc |Ref.3|
 | Grain Density (![equation](https://latex.codecogs.com/png.latex?%24%5Crho_%7Bma%7D%24))  |2.65| g/cc |Ref.3|
-
+|Surface Porosity (![equation](https://latex.codecogs.com/png.latex?\phi))| 0.37 | - | Ref.5 |
+|Compaction parameter (![equation](https://latex.codecogs.com/png.latex?\beta))| 0.0266 | MPa | Ref.5 |
 
 ### Petrophysics correlations for Volve Field
 | Variables					|     Equation    | Unit|  Reference |
@@ -35,3 +36,5 @@
 3. Sleipner Øst and Volve Model Hugin and Skagerrak Formation Petrophysical Evaluation, 2006 
 4. Kalani, M., 2018. Multiscale seal characterization in the North Sea Implications from clay
 sedimentology, well logs interpretation and seismic analyses
+5. Karstens, J., 2015. Focused fluid conduits in the Southern Viking Graben and their implications for the
+Sleipner CO2 storage project (Doctoral dissertation, Christian-Albrechts-Universität).
