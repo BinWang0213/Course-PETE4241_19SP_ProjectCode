@@ -20,8 +20,8 @@
 |----------					|---------------- |------------ |--|
 | Water Density (![equation](https://latex.codecogs.com/png.latex?%24%5Crho_%7Bw%7D%24))  |1.0| g/cc |Ref.3|
 | Grain Density (![equation](https://latex.codecogs.com/png.latex?%24%5Crho_%7Bma%7D%24))  |2.65| g/cc |Ref.3|
-| Initial Porosity (![equation](https://latex.codecogs.com/gif.latex?\phi_0))  |0.37| - |Ref.4|
-| Compaction parameter (![equation](https://latex.codecogs.com/gif.latex?\beta))  |0.0266| MPa |Ref.4|
+| Initial Porosity (![equation](https://latex.codecogs.com/png.latex?\phi_0))  |0.37| - |Ref.4|
+| Compaction parameter (![equation](https://latex.codecogs.com/png.latex?\beta))  |0.0266| MPa |Ref.4|
 
 
 ### Petrophysics correlations for Volve Field
