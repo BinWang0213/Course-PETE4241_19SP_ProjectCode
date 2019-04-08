@@ -4,15 +4,16 @@ PyLasMech is a simple tool to read well log data (ASCII LAS) and compute geo-mec
 
 Currently, it support following features
 
-	* 1. Read arbitrary well log data (ASCII LAS file) using lasio (https://github.com/kinverarity1/lasio)
-	* 2. Plot and visualize the well logs
-	* 3. Compute geo-mechanical parameters
-		* Pore pressure, Pp
-		* Porosity, ϕ
-		* Young's Modulus, E
-		* Possion ratio, v
-		* Unconfined compressive strength, UCS
-		* [TODO] Principle Stress, S1, S2, S3
+* 1. Read arbitrary well log data (ASCII LAS file) using lasio (https://github.com/kinverarity1/lasio)
+* 2. Plot and visualize the well logs
+* 3. Compute geo-mechanical parameters
+	* 3.1 Pore pressure, Pp
+	* 3.2 Porosity, ϕ
+	* 3.3 Young's Modulus, E
+	* 3.4 Possion ratio, v
+	* 3.5 Unconfined compressive strength, UCS
+	* 3.6 [TODO] Principle Stress, S1, S2, S3
+* 4. Interpoate the grid block value based on calculated geo-mechanical parameters
 
 ## Examples
 
