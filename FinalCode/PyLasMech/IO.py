@@ -3,12 +3,8 @@ import sys,os
 import numpy as np
 sys.path.append(os.path.realpath('..'))
 
-from .lasio import read
+from .externalLib.lasio import read
 from .utils import showTable,showTables,findIntersection,type_of_script
-
-
-#Unit system
-ft=0.3048 # 1 ft = 0.3048 m
 
 
 #Common parameters 
@@ -43,16 +39,62 @@ class Params:
         self.MinMaxVal=[]
         self.Comments=[]
         self.NonNanDict={}
+    
+    def getCurveIndex(self,CurveName):
+        #Get the index of a curve
+        return self.CurveNames.index(CurveName)
+
+    def getNonNanIndex(self,Data,CurveName):
+        AvailDZ=self.AvailDepth[self.getCurveIndex(CurveName)]
+        return np.where(((Data[0]>=AvailDZ[0]) & (Data[0]<=AvailDZ[1])))[0] # first curve is always the DEPTH
+
+    def getCommonNonNanIndex(self,Data,CurveNames):
+        #Get common Non-nan index from a list of curves 
+        #param.getCommonNonNanIndex(l,["RHOB","DT","DTS"])
+        
+        CurveIdxs=[self.getNonNanIndex(Data,name) for name in CurveNames if name in self.CurveNames]
+        IdxRanges=[[Idx[0],Idx[-1]] for Idx in CurveIdxs]
+        CommonRange=list(findIntersection(IdxRanges))
+        CommonRange[-1]+=1
+        return np.arange(*CommonRange,dtype=int)
+
+    def getNonNanCurve(self,Data,CurveName):
+        #Get the non-Nan value of a curve
+        #AvailDZ=self.AvailDepth[self.getCurveIndex(CurveName)]
+        #NonNanIdx=np.where(((Data[0]>=AvailDZ[0]) & (Data[0]<=AvailDZ[1])))[0] # first curve is always the DEPTH
+        NonNanIdx=self.getNonNanIndex(Data,CurveName)
+        return Data[0][NonNanIdx],Data[CurveName][NonNanIdx]
+
+def append_Params(param,DEPTH,CurveName,data,unit,descr):
+    #Append a curve into class Param data structure
+    
+    #Find non-nan value index
+    index=np.where(np.isnan(data)==False)[0]
+    param.NonNanDict[CurveName]=index
+
+    #Append parameters
+    param.CurveNames.append(CurveName)
+
+    #normalize the unit
+    if(unit in ["US/F","US/FT","US/F","us/ft"]): unit="us/ft"
+    if(unit in ["G/C3","g/cm3","G/CC"]): unit="g/cm3"
+    param.Units.append(unit)
+    param.Comments.append(descr)
+    minDepth,maxDepth=DEPTH[index[0]],DEPTH[index[-1]]
+    param.AvailDepth.append([minDepth,maxDepth])
+    minVal,maxVal=np.nanmin(data[index]),np.nanmax(data[index])
+    param.MinMaxVal.append([minVal,maxVal])
 
 
-def LasFinder(path="../Data/"):
+#-------------------------Key Functions----------------------------
+def FileFinder(path="../Data/",fext=".las"):
     #Search all log files from the folder and subfolder
     DataFolder=os.path.abspath(path)
     fnames={}
 
     for root, dirs, files in os.walk(DataFolder):
         for file in files:
-            if file.lower().endswith(".las"):
+            if file.lower().endswith(fext):
                 fnames[file]=os.path.join(root, file)
     
     print("[IO] Found %d log files" %(len(fnames)))
@@ -61,7 +103,7 @@ def LasFinder(path="../Data/"):
     relative_paths = [os.path.relpath(path, os.getcwd()) for path in fnames.values()]
     if(len(fnames)>0):
         if(type_of_script()=="terminal"):
-            showTable([list(fnames.keys()),relative_paths],["FileName","Location"])
+            showTable([list(fnames.keys()),relative_paths],["FileName","Location"],preview=len(fnames)+5)
         else:
             showTables([list(fnames.keys()),relative_paths],XLables=["FileName","Location"],preview=len(fnames)+5)
 
@@ -71,7 +113,7 @@ def LasFinder(path="../Data/"):
 def ReadLas(fname):
     Data=read(fname)
 
-    print("[IO] Reading %s....."% (fname),end='')
+    print("[IO] Reading %s....."% (fname))
     #Collect import parameters
     param=Params()
     param.fname=fname
@@ -82,6 +124,7 @@ def ReadLas(fname):
 
     #Collect useful information for plot and post-processing
     for key,value in Data.items():
+        '''
         index=np.where(np.isnan(value)==False)[0]
         param.NonNanDict[key]=index
 
@@ -92,7 +135,8 @@ def ReadLas(fname):
         param.AvailDepth.append([minDepth,maxDepth])
         minVal,maxVal=np.nanmin(Data[key][index]),np.nanmax(Data[key][index])
         param.MinMaxVal.append([minVal,maxVal])
-
+        '''
+        append_Params(param,Data[0],key,value,Data.curves[key].unit,Data.curves[key].descr)
 
     #Find overlap depth intervals where all data available
     param.CommonDepth=findIntersection(param.AvailDepth[1:])
@@ -103,15 +147,16 @@ def ReadLas(fname):
     
     NumLines_estimate=int((param.Depth[1]-param.Depth[0])/param.Depth_step+1)
     if NumLines_estimate!=len(Data[0]):
-        print("\n[Warnning] Data size (%d,%d) is in-comptabile with depth/depth_step!" %(NumLines_estimate,len(Data[0])))
+        print("[Warnning] Data size (%d,%d) is in-comptabile with depth/depth_step!" %(NumLines_estimate,len(Data[0])))
 
     print("Done!")
 
     #Create a plm_param copy in lasio class
     Data.plm_param=param
-    return Data,param
+    return Data#,param
 
-def printLas(param):
+def printLas(Data):
+    param=Data.plm_param
     #Print las param
     print("[LAS Info]")
     print("Well Name=",param.WellName)
@@ -129,3 +174,31 @@ def printLas(param):
         XLables=["Curves","Available Depth (Non-NULL)","Raw Min/Max Val","Unit","Comments"],preview=len(param.Units)+5)
 
 
+def appendCurve(Data,CurveName,data,unit="m",descr="User PyLasMech curve",dataIndex=None):
+    #Add a new curve into pylasmech system
+    if(len(data)!=len(Data[0])):
+        print("Input data size(%d) < DEPTH size (%d), NULL value (nan) will be added"%(len(data),len(Data[0])))
+        Newdata=np.ones(len(Data[0]))*np.nan
+        Newdata[dataIndex]=data
+        data=Newdata
+    
+    if(CurveName in Data.plm_param.CurveNames):
+        print("[IO] Curve %s is already existed! Update the data array"%(CurveName))
+        Data.delete_curve(CurveName)
+        Data.add_curve(CurveName, data, unit=unit, descr=descr)
+        return
+
+    #Append data into lasio
+    Data.add_curve(CurveName, data, unit=unit, descr=descr)
+
+    #Append data into pylasmech
+    DEPTH=Data[0]
+    append_Params(Data.plm_param,DEPTH,
+                  CurveName,data,unit,descr)
+    
+    #Find overlap depth intervals where all data available
+    Data.plm_param.CommonDepth=findIntersection(Data.plm_param.AvailDepth[1:])
+
+
+
+    

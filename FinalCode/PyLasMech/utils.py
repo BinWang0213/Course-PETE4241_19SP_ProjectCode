@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from .interval import interval
-from .tabulate import tabulate
+from .externalLib.interval import interval
+from .externalLib.tabulate import tabulate
 
 
 def type_of_script():
@@ -62,11 +62,15 @@ TabColor=['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:b
 markers=['o', 's', 'v', '^', 'D', '<', '>', 'p', 'h']
 
 
-def showTable(cols=[],Headers=[]):
+def showTable(cols=[],Headers=[],preview=10):
+    NumData=len(cols[0])
+    PreviewStep=int(NumData/preview)+1
+    cols=[col[0::PreviewStep] for col in cols]
+
     df = pd.DataFrame(cols)
     df = df.transpose()
     df.columns = Headers
-    print(tabulate(df, headers='keys', tablefmt='psql',showindex='never'))
+    print(tabulate(df, headers='keys', tablefmt='psql'))
 
 def showTables(X,Y=[],XLables=[],YLabels=[],preview=10):
     from IPython.display import display_html,display
@@ -91,8 +95,6 @@ def showTables(X,Y=[],XLables=[],YLabels=[],preview=10):
     if(len(Y)==0):
         Tables=[pd.concat(Tables,axis=1)]
     display_side_by_side(*[x for x in Tables])
-
-
 
 
 
@@ -253,7 +255,7 @@ def findIntersection(intervals):
         temp = temp & interval(itv)
 
     if(len(temp)==0):
-        print("\n[Warnning] No intersection! Get union!")
+        print("[Warnning] No intersection! Get union!")
         temp=[findUnion(intervals)]
         
     return temp[0]
