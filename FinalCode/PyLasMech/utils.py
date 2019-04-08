@@ -70,7 +70,7 @@ def showTable(cols=[],Headers=[],preview=10):
     df = pd.DataFrame(cols)
     df = df.transpose()
     df.columns = Headers
-    print(tabulate(df, headers='keys', tablefmt='psql'))
+    print(tabulate(df, headers='keys', tablefmt="github"))
 
 def showTables(X,Y=[],XLables=[],YLabels=[],preview=10):
     from IPython.display import display_html,display
