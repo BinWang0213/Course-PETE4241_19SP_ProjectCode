@@ -17,7 +17,7 @@ psi=6894.76
 
 
 #Find all LAS files from a dir
-LogFiles=plm.FileFinder("../Data/")
+LogFiles=plm.FileFinder("../Data/Petrophysics")
 
 #Read all las data into WellLogs and WellLogParams
 NumWells=len(LogFiles)
