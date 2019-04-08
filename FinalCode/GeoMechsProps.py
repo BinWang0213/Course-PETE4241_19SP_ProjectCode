@@ -98,6 +98,10 @@ for i in range(len(WellLogs)):
         GeoMechParams["P_pore_Athy"]=GeoMechParams["Sv"]+1/beta*np.log(GeoMechParams["PORO"]/phi0)
 
         #Storage New variables into LAS system
+        for name, data in GeoMechParams.items():#Fix inf -inf value in data
+            data[data==-np.inf]=np.nan
+            data[data==np.inf]=np.nan
+
         plm.appendCurve(l,'Sv', GeoMechParams["Sv"]/1e6, unit='MPa',descr='PyLasMech overburden stress',dataIndex=NonNanIndex)
         plm.appendCurve(l,'P_pore', GeoMechParams["P_pore"]/1e6, unit='MPa',descr='PyLasMech pore pressure',dataIndex=NonNanIndex)
         plm.appendCurve(l,'PORO', GeoMechParams["PORO"], unit='-',descr='PyLasMech porosity',dataIndex=NonNanIndex)
@@ -118,11 +122,16 @@ for i in range(len(WellLogs)):
         GeoMechParams["UCS"]=np.exp(-6.36+2.45*np.log10(0.86*Vp-1172))*mega*Pa
         
         #Storage New variables into LAS system
+        for name, data in GeoMechParams.items():#Fix inf -inf value in data
+            data[data==-np.inf]=np.nan
+            data[data==np.inf]=np.nan
+
         plm.appendCurve(l,'v', GeoMechParams["v"], unit='-',descr='PyLasMech possion ratio',dataIndex=NonNanIndex)
         plm.appendCurve(l,'E', GeoMechParams["E"]/1e9, unit='GPa',descr='PyLasMech Youngs modulus',dataIndex=NonNanIndex)
         plm.appendCurve(l,'UCS', GeoMechParams["UCS"]/1e6, unit='MPa',descr='PyLasMech UCS',dataIndex=NonNanIndex)
     
 
+    
     
     #Export solution into figures
     WellName=WellLogs[i].plm_param.WellName
