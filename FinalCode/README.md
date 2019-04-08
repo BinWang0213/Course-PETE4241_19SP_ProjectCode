@@ -39,5 +39,5 @@ plm.printLas(WellLog)
 fig=plm.plotLogs(LogData=WellLog,CurveNames=["DT","DTS","RHOB","NPHI"])
 ```
 <p align="center">
-  <img src = "https://github.com/BinWang0213/PETE4241_19SP_ProjectCode/blob/master/FinalCode/output/WellLog/15_9-F-14_log.png" height="300">
+  <img src = "https://github.com/BinWang0213/PETE4241_19SP_ProjectCode/blob/master/FinalCode/output/WellLog/15_9-F-14_log.png" height="600">
 </p>
