@@ -139,7 +139,7 @@ for i in range(len(WellLogs)):
 
     XLims={"P_pore":(10,90),"Sv":(10,90),"PORO_Athy":(0,0.5),"PORO":(0,0.5)}
     fig=plm.plotLogs(LogData=l,CurveNames=GeoMechParams.keys(),XLims=XLims)    
-    plt.savefig(fname,dpi=300,bbox_inches = 'tight')
+    plt.savefig(fname,dpi=120,bbox_inches = 'tight')
     print("[IO] Save log figure as ",os.getcwd()+fname)
     plt.close(fig)
 
