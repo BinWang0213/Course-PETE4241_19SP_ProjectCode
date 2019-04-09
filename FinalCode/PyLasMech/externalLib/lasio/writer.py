@@ -174,7 +174,7 @@ def write(
     nrows, ncols = data_arr.shape
 
     if len_numeric_field is None:
-        len_numeric_field = 10
+        len_numeric_field = 5
         test_fmt = fmt % np.pi
         while len(test_fmt) < (len_numeric_field - 1):
             len_numeric_field += 1
