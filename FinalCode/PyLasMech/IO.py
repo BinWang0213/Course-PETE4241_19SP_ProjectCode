@@ -3,7 +3,7 @@ import sys,os
 import numpy as np
 sys.path.append(os.path.realpath('..'))
 
-from .externalLib.lasio import read
+from .externalLib.lasio import read,LASFile
 from .utils import showTable,showTables,findIntersection,type_of_script
 
 
@@ -155,6 +155,15 @@ def ReadLas(fname):
     Data.plm_param=param
     return Data#,param
 
+def createLas(WellName,CurveNames,CurveData,CurveUnit):
+    #Create a LAS data using lasio
+    l=LASFile()
+    l.well["WELL"]=WellName
+    NumCurves=len(CurveNames)
+    for i in range(NumCurves):
+        l.add_curve(CurveNames[i],CurveData[i],unit=CurveUnit[i],descr="User PyLasMech curve")
+    return l
+
 def printLas(Data):
     param=Data.plm_param
     #Print las param
@@ -168,7 +177,7 @@ def printLas(Data):
     #print las information
     if(type_of_script()=="terminal"):
         showTable([param.CurveNames,param.AvailDepth,param.MinMaxVal,param.Units,param.Comments],
-        ["Curves","Available Depth (Non-NULL)","Raw Min/Max Val","Unit","Comments"])
+        ["Curves","Available Depth (Non-NULL)","Raw Min/Max Val","Unit","Comments"],preview=len(param.Units)+5)
     else:
         showTables([param.CurveNames,param.AvailDepth,param.MinMaxVal,param.Units,param.Comments],
         XLables=["Curves","Available Depth (Non-NULL)","Raw Min/Max Val","Unit","Comments"],preview=len(param.Units)+5)
