@@ -95,5 +95,5 @@ fig=plm.plotLogs(LogData=l,CurveNames=GeoMechParams.keys(),XLims=XLims)
 ```
 
 <p align="center">
-  <img src = "https://github.com/BinWang0213/PETE4241_19SP_ProjectCode/blob/master/FinalCode/output/GeoMech/15_9-F-14_GeoMech.png" height="600">
+  <img src = "https://github.com/BinWang0213/PETE4241_19SP_ProjectCode/blob/master/FinalCode/output/GeoMech/15_9-F-14_GeoMechTVD.png" height="600">
 </p>
