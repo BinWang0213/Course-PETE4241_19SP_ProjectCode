@@ -17,7 +17,7 @@ psi=6894.76
 
 
 #Find all LAS files from a dir
-LogFiles=plm.FileFinder("../Data/Petrophysics")
+LogFiles=plm.FileFinder("../Data/PetrophysicsTVD")
 
 #Read all las data into WellLogs and WellLogParams
 NumWells=len(LogFiles)
@@ -47,12 +47,13 @@ for i in range(len(WellLogs)):
     GeoMechParams={}
 
     #RHOB DT DTS etc from Log
-    NonNanIndex=param.getCommonNonNanIndex(l,["RHOB","DT","DTS"])
+    NonNanIndex=param.getCommonNonNanIndex(l,["RHOB","DT","DTS","TVD"])
 
-    DZ=l[0][NonNanIndex]
+    DZ=l["TVD"][NonNanIndex]
     #Auto unit setup
-    if(param.Units[0]=="F" or param.Units[0]=="f"): DZ=DZ*ft
-    elif(param.Units[0]=="M" or param.Units[0]=="m"): DZ=DZ*meter
+    DZ_unit=param.Units[param.getCurveIndex("TVD")]
+    if(DZ_unit.lower()=="f"): DZ=DZ*ft
+    elif(DZ_unit.lower()=="m"): DZ=DZ*meter
     else:print("!!!Unknown Unit!!!!")
     
     if("RHOB" in param.CurveNames): 
@@ -135,7 +136,7 @@ for i in range(len(WellLogs)):
     
     #Export solution into figures
     WellName=WellLogs[i].plm_param.WellName
-    fname=OutputFolder+WellName.replace("/","_")+'_GeoMech.png'
+    fname=OutputFolder+WellName.replace("/","_")+'_GeoMechTVD.png'
 
     XLims={"P_pore":(10,90),"Sv":(10,90),"PORO_Athy":(0,0.5),"PORO":(0,0.5)}
     fig=plm.plotLogs(LogData=l,CurveNames=GeoMechParams.keys(),XLims=XLims)    

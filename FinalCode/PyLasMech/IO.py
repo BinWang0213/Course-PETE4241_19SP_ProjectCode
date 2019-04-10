@@ -4,7 +4,7 @@ import numpy as np
 sys.path.append(os.path.realpath('..'))
 
 from .externalLib.lasio import read,LASFile
-from .utils import showTable,showTables,findIntersection,type_of_script
+from .utils import showTable,showTables,findIntersection,type_of_script,fillNanByInterp
 
 
 #Common parameters 
@@ -56,7 +56,20 @@ class Params:
         IdxRanges=[[Idx[0],Idx[-1]] for Idx in CurveIdxs]
         CommonRange=list(findIntersection(IdxRanges))
         CommonRange[-1]+=1
-        return np.arange(*CommonRange,dtype=int)
+        CommonRange=np.array(CommonRange,dtype=int)
+
+        RawCommonIdxs=np.arange(*CommonRange,dtype=int)
+
+        #Remove nan index within the a continuos range
+        for name in CurveNames:
+            if name in self.CurveNames:
+                CommonData=Data[name][RawCommonIdxs]
+                inBetweenNan=list(np.where(np.isnan(CommonData)==True)[0])
+                if(len(inBetweenNan)>0):
+                    print(name,"[Warning] has %d NAN values in between" %(len(inBetweenNan)))
+                    Data[name][RawCommonIdxs]=fillNanByInterp(Data[name][RawCommonIdxs])
+
+        return RawCommonIdxs
 
     def getNonNanCurve(self,Data,CurveName):
         #Get the non-Nan value of a curve
@@ -120,7 +133,7 @@ def ReadLas(fname):
     param.Depth=[Data.well.STRT.value,Data.well.STOP.value]
     param.Depth_step=Data.well.STEP.value
     param.NULL_Val=Data.well.NULL.value
-    param.WellName=Data.well.well.value
+    param.WellName=Data.well.well.value.replace("/","_") #replace back slash in well name
 
     #Collect useful information for plot and post-processing
     for key,value in Data.items():
@@ -163,6 +176,11 @@ def createLas(WellName,CurveNames,CurveData,CurveUnit):
     for i in range(NumCurves):
         l.add_curve(CurveNames[i],CurveData[i],unit=CurveUnit[i],descr="User PyLasMech curve")
     return l
+
+def saveLas(Data,fname):
+    with open(fname, mode="w") as f: # Write LAS file to disk\n"
+        Data.write(f)
+    print("Write Las file @",fname)
 
 def printLas(Data):
     param=Data.plm_param

@@ -49,7 +49,7 @@ def plotLogs(LogData,CurveNames,Depth_Range=None,NumFigCurves=2,XLims={}):
     else: print("!!Unkonwn Depth unit!!",param.Units[0])
 
     #Find reasonable depth range for all available variables
-    PlotNamesIdx=[AvailNames.index(name) for name in PlotNames]
+    PlotNamesIdx=[AvailNames.index(name) for name in PlotNames if name != "TVD"]
     AvailDepths=[param.AvailDepth[idx] for idx in PlotNamesIdx]
     if Depth_Range is None:
         Depth_Range=findUnion(AvailDepths)

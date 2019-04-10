@@ -268,3 +268,7 @@ def findUnion(intervals):
         temp = temp | interval(itv) 
     
     return temp[0]
+
+def fillNanByInterp(array):
+    #https://stackoverflow.com/questions/6518811/interpolate-nan-values-in-a-numpy-array
+    return pd.DataFrame(array).interpolate().values.ravel()
