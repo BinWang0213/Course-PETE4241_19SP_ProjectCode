@@ -52,7 +52,7 @@ for i in range(len(WellLogs)):
     DZ=l["TVD"][NonNanIndex]
     #Auto unit setup
     DZ_unit=param.Units[param.getCurveIndex("TVD")]
-    if(DZ_unit.lower()=="f"): DZ=DZ*ft
+    if(DZ_unit.lower()=="ft"): DZ=DZ*ft
     elif(DZ_unit.lower()=="m"): DZ=DZ*meter
     else:print("!!!Unknown Unit!!!!")
     
@@ -85,6 +85,9 @@ for i in range(len(WellLogs)):
         GeoMechParams["Sv"]=np.array(Sv)
         GeoMechParams["Sv_grad"]=GeoMechParams["Sv"]/DZ
 
+        GeoMechParams["Shmin"]=0.84*GeoMechParams["Sv"]
+        GeoMechParams["Shmax"]=0.89*GeoMechParams["Sv"]
+
         #2. Pore pressure
         GeoMechParams["P_pore"]=rho_w*g*DZ
 
@@ -104,6 +107,8 @@ for i in range(len(WellLogs)):
             data[data==np.inf]=np.nan
 
         plm.appendCurve(l,'Sv', GeoMechParams["Sv"]/1e6, unit='MPa',descr='PyLasMech overburden stress',dataIndex=NonNanIndex)
+        plm.appendCurve(l,'Shmin', GeoMechParams["Shmin"]/1e6, unit='MPa',descr='PyLasMech min horizontal stress',dataIndex=NonNanIndex)
+        plm.appendCurve(l,'Shmax', GeoMechParams["Shmax"]/1e6, unit='MPa',descr='PyLasMech max horizontal stress',dataIndex=NonNanIndex)
         plm.appendCurve(l,'P_pore', GeoMechParams["P_pore"]/1e6, unit='MPa',descr='PyLasMech pore pressure',dataIndex=NonNanIndex)
         plm.appendCurve(l,'PORO', GeoMechParams["PORO"], unit='-',descr='PyLasMech porosity',dataIndex=NonNanIndex)
         plm.appendCurve(l,'PORO_Athy', GeoMechParams["PORO_Athy"], unit='-',descr='PyLasMech porosity from Athy',dataIndex=NonNanIndex)
@@ -138,11 +143,18 @@ for i in range(len(WellLogs)):
     WellName=WellLogs[i].plm_param.WellName
     fname=OutputFolder+WellName.replace("/","_")+'_GeoMechTVD.png'
 
-    XLims={"P_pore":(10,90),"Sv":(10,90),"PORO_Athy":(0,0.5),"PORO":(0,0.5)}
+    XLims={"P_pore":(10,90),"Sv":(10,90),"Shmax":(10,90),"Shmin":(10,90),"PORO_Athy":(0,0.5),"PORO":(0,0.5)}
     fig=plm.plotLogs(LogData=l,CurveNames=GeoMechParams.keys(),XLims=XLims)    
     plt.savefig(fname,dpi=120,bbox_inches = 'tight')
     print("[IO] Save log figure as ",os.getcwd()+fname)
     plt.close(fig)
+
+    #Export new las file with calculated paramters
+    fpath="../Data/Petrophysics"#Save all new files at the root of petrophysics
+    fname=l.plm_param.WellName+"_TVD_Geomech.las"
+    fname=os.path.join(fpath,fname)
+    print("[IO] Save new log as ",os.getcwd()+fname)
+    plm.saveLas(l,fname)
 
     
 
