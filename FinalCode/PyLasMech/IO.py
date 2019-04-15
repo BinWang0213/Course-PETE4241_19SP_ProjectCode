@@ -91,6 +91,8 @@ def append_Params(param,DEPTH,CurveName,data,unit,descr):
     #normalize the unit
     if(unit in ["US/F","US/FT","US/F","us/ft"]): unit="us/ft"
     if(unit in ["G/C3","g/cm3","G/CC"]): unit="g/cm3"
+    if(unit in ["M"]):unit="m"
+    if(unit in ["F","FT","ft"]): unit="ft"
     param.Units.append(unit)
     param.Comments.append(descr)
     minDepth,maxDepth=DEPTH[index[0]],DEPTH[index[-1]]
@@ -201,9 +203,9 @@ def printLas(Data):
         XLables=["Curves","Available Depth (Non-NULL)","Raw Min/Max Val","Unit","Comments"],preview=len(param.Units)+5)
 
 
-def appendCurve(Data,CurveName,data,unit="m",descr="User PyLasMech curve",dataIndex=None):
+def appendCurve(Data,CurveName,data,unit="m",descr="User PyLasMech curve",dataIndex=[]):
     #Add a new curve into pylasmech system
-    if(len(data)!=len(Data[0])):
+    if(len(data)!=len(Data[0]) and len(dataIndex)>0):
         print("Input data size(%d) < DEPTH size (%d), NULL value (nan) will be added"%(len(data),len(Data[0])))
         Newdata=np.ones(len(Data[0]))*np.nan
         Newdata[dataIndex]=data
@@ -223,7 +225,7 @@ def appendCurve(Data,CurveName,data,unit="m",descr="User PyLasMech curve",dataIn
     append_Params(Data.plm_param,DEPTH,
                   CurveName,data,unit,descr)
     
-    #Find overlap depth intervals where all data available
+    #Update overlap depth intervals where all data available
     Data.plm_param.CommonDepth=findIntersection(Data.plm_param.AvailDepth[1:])
 
 

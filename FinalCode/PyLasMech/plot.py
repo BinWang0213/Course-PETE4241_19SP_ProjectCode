@@ -5,7 +5,7 @@ from .utils import setPlotStyle,findUnion
 
 
 #ColorScheme=['tab:blue', 'tab:orange', 'tab:green', 'tab:red','tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive', 'tab:cyan']
-ColorScheme=['xkcd:blue','xkcd:orange','xkcd:green','xkcd:red','xkcd:purple','xkcd:brown','xkcd:pink','xkcd:gray','xkcd:teal']
+ColorScheme=['xkcd:blue','xkcd:orange','xkcd:green','xkcd:red','xkcd:purple','xkcd:brown','xkcd:pink','xkcd:gray','xkcd:teal','xkcd:sky blue','xkcd:salmon']
 
 
 def setCurveLim(ax,Curve,CurveName):

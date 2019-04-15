@@ -272,3 +272,14 @@ def findUnion(intervals):
 def fillNanByInterp(array):
     #https://stackoverflow.com/questions/6518811/interpolate-nan-values-in-a-numpy-array
     return pd.DataFrame(array).interpolate().values.ravel()
+
+def findSimilarStr(str,liststr):
+    from difflib import SequenceMatcher
+
+    def similar(a, b):
+        return SequenceMatcher(None, a, b).ratio()
+    
+    similarNbr=[similar(str,stri) for stri in liststr]
+    similaridx=similarNbr.index(max(similarNbr))
+
+    return liststr[similaridx]
