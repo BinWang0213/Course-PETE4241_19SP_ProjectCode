@@ -34,3 +34,4 @@ S3, UCS, E, and 𝜈 for this cell (computed in 1 v above).
 simulation data file given. 
 
 * Download spreadsheets @ https://github.com/BinWang0213/PETE4241_19SP_ProjectCode/blob/master/Results/CMGWell_Geomech.xlsx
+* Download spreadsheets @ https://github.com/BinWang0213/PETE4241_19SP_ProjectCode/blob/master/Results/cmg_all_cells.xlsx
