@@ -123,18 +123,23 @@ for i in range(len(WellLogs)):
         G=RHOB*Vs*Vs
         GeoMechParams["v"]=(Vp**2-2*Vs**2)/2/(Vp**2-Vs**2)
         GeoMechParams["E"]=2*G*(1+GeoMechParams["v"]) 
-
+    
+    if("DT" in param.CurveNames):
         #7. UCS
+        Vp=1/DT
         GeoMechParams["UCS"]=np.exp(-6.36+2.45*np.log10(0.86*Vp-1172))*mega*Pa
-        
-        #Storage New variables into LAS system
-        for name, data in GeoMechParams.items():#Fix inf -inf value in data
-            data[data==-np.inf]=np.nan
-            data[data==np.inf]=np.nan
+    else:
+        GeoMechParams["UCS"]=2.922*GeoMechParams["PORO"]**-0.96
 
+    #Storage New variables into LAS system
+    for name, data in GeoMechParams.items():#Fix inf -inf value in data
+        data[data==-np.inf]=np.nan
+        data[data==np.inf]=np.nan
+
+    if("DT" in param.CurveNames and "DTS" in param.CurveNames):
         plm.appendCurve(l,'v', GeoMechParams["v"], unit='-',descr='PyLasMech possion ratio',dataIndex=NonNanIndex)
         plm.appendCurve(l,'E', GeoMechParams["E"]/1e9, unit='GPa',descr='PyLasMech Youngs modulus',dataIndex=NonNanIndex)
-        plm.appendCurve(l,'UCS', GeoMechParams["UCS"]/1e6, unit='MPa',descr='PyLasMech UCS',dataIndex=NonNanIndex)
+    plm.appendCurve(l,'UCS', GeoMechParams["UCS"]/1e6, unit='MPa',descr='PyLasMech UCS',dataIndex=NonNanIndex)
     
 
     
@@ -143,8 +148,9 @@ for i in range(len(WellLogs)):
     WellName=WellLogs[i].plm_param.WellName
     fname=OutputFolder+WellName.replace("/","_")+'_GeoMechTVD.png'
 
-    XLims={"P_pore":(10,90),"Sv":(10,90),"Shmax":(10,90),"Shmin":(10,90),"PORO_Athy":(0,0.5),"PORO":(0,0.5)}
-    fig=plm.plotLogs(LogData=l,CurveNames=GeoMechParams.keys(),XLims=XLims)    
+    XLims={"P_pore":(10,90),"P_pore_Athy":(10,90),"Sv":(10,90),"Shmax":(10,90),"Shmin":(10,90),"PORO_Athy":(0,0.5),"PORO":(0,0.5)}
+    PlotNames=plm.utils.sortbyKeyword(GeoMechParams.keys(),"PORO")
+    fig=plm.plotLogs(LogData=l,CurveNames=PlotNames,XLims=XLims,NumCurvesPattern=[2,2,3,3])    
     plt.savefig(fname,dpi=120,bbox_inches = 'tight')
     print("[IO] Save log figure as ",os.getcwd()+fname)
     plt.close(fig)

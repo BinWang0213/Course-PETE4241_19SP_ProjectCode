@@ -283,3 +283,7 @@ def findSimilarStr(str,liststr):
     similaridx=similarNbr.index(max(similarNbr))
 
     return liststr[similaridx]
+
+def sortbyKeyword(strlist,keyword):
+    import difflib
+    return sorted(list(strlist), key=lambda z: difflib.SequenceMatcher(None, z, keyword).ratio(), reverse=True)
