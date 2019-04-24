@@ -35,3 +35,18 @@ simulation data file given.
 
 * Download spreadsheets @ https://github.com/BinWang0213/PETE4241_19SP_ProjectCode/blob/master/Results/CMGWell_Geomech.xlsx
 * Download spreadsheets @ https://github.com/BinWang0213/PETE4241_19SP_ProjectCode/blob/master/Results/cmg_all_cells.xlsx
+
+### Q3. Using the CMG reservoir simulation model provided, perform reservoir simulation for Volve field.
+
+- [ ] 3.1 Perform flow simulator using IMEX and compare your well production performance forecasts with those in the “Volve Sim model and
+HM per jan-16” powerpoint slides uploaded under Topic 11.
+
+- [ ] 3.2 Using the CMG IMEX documentation on Geomechanics and the example simulation data
+files that comes with your CMG installation (typically in C:\Program
+Files(x86)\CMG\IMEX\2017.10\TPL\gmc), modify the CMG_gmc.dat file in the Volve CMG
+folder to perform a coupled geomechanics and flow simulation.
+
+- [ ] 3.3 Compare your results from the coupled geomechanics and flow simulation with the
+original results from the flow simulation only.
+
+Large CMG simulation file can be shared by https://filestogeaux.lsu.edu/
