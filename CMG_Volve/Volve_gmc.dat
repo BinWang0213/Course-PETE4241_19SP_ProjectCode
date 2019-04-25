@@ -295,7 +295,15 @@ INCLUDE 'Porosity.txt'
 82:100 1:33 1:63 = 0.0
 79:100 1:32 1:63 = 0.0
 77:100 1:31 1:63 = 0.0
-
+**OMO edit
+89:108   1:100 1:63 = 0.0
+ 1:108  61:100 1:63 = 0.0
+ 1:43    1:100 1:63 = 0.0
+ 1:108   1:19  1:63 = 0.0 
+44:44   56:60  1:63 = 0.0 
+45:45   59:60  1:63 = 0.0  
+ 1:108  20:22  1:63 = 0.0 
+ 
 INCLUDE 'PERM_I.txt'
 
 *MOD
@@ -367,7 +375,7 @@ INCLUDE 'PERM_K.txt'
 
 *********************************************************************************
 
-INCLUDE 'PinchoutArray.txt'
+**INCLUDE 'PinchoutArray.txt'
 
 INCLUDE 'PV_mult.txt'
 
@@ -3483,8 +3491,18 @@ CONVERGE MAXRES GAS 1e-2 **TOTRES 0.01
 
 *NOLIST
 
-**  ==============  GEOMECHANIC MODEL  ======================
 *INCLUDE 'MEMComps_cmg.txt'
+
+
+**GEOMECH
+**GEOM3D   ** using 3D finite elements
+**GCOUPLING 2  ** Porosity depends on p, T, total stress
+**GCFACTOR 1.0        ** geomechanic coupling factor for coupling type 2
+
+**ELASTMOD 5.5e4       ** Elastic Young's modulus (PSI)
+**POISSRATIO 0.3       ** Poisson's ratio
+
+**STRESS3D  52589.4431569070 46804.6044096472 44175.1322518019 0.0000000000 0.0000000000 0.0000000000 
 
 ****************************************************************************
 **

@@ -63,7 +63,8 @@ nu_cmg = abs(nu_cmg);
 %TO DO: confirm units!
 InsituStress = 1000.*[Sv_cmg,SH_cmg,Sh_cmg,0.*Sh_cmg,0.*Sh_cmg,0.*Sh_cmg]';
 
-%fpath = '.';
+%% Write to CMG data file 
+
 fid = fopen('.\MEMComps_cmg.txt', 'w'); 
 fprintf(fid, '**=================== GEOMECHANIC SECTION ====================\n\n');
 fprintf(fid, '*GEOMECH\n');
@@ -75,32 +76,34 @@ fprintf(fid, '*GCFACTOR 1.0        ** geomechanic coupling factor for coupling t
 fprintf(fid, '\n*YLDSTRESS 1e9        ** inf yield stress for mimicing elastic behavoir\n');
 fprintf(fid, '*BIOTSCOEF 0.3        ** biot coefficient\n');
 
-for i=1:numel(Sv_cmg)
-    fprintf(fid, '*GEOROCK %d           ** rock type # %d \n',i,i);
-    fprintf(fid, '   *ELASTMOD %0.10f \n',E_cmg(i));
-    fprintf(fid, '   *POISSRATIO %0.10f \n',nu_cmg(i));
-end
+
 % nx  ny  nz
 % 108 100 63
 nx=108;ny=100;nz=63;
-fprintf(fid, '\n*GEOTYPE   IJK\n');
-fprintf(fid, '**         i       j       k       rocktype\n');
-ii=0;
-for k=1:63
-    for j=1:100
-        for i=1:108
-            ii = ii + 1;
-            fprintf(fid, '           %d       %d       %d          %d\n',i,j,k,ii);
-        end
-    end
+
+% @ Set up average E and v for each layer
+E_cmg_layers=reshape(E_cmg,nz,nx*ny);
+E_cmg_layers=mean(E_cmg_layers,2);
+
+nu_cmg_layers=reshape(nu_cmg,nz,nx*ny);
+nu_cmg_layers=mean(nu_cmg_layers,2);
+
+for i=1:nz
+    fprintf(fid, '\n*GEOROCK %d           ** rock type # %d \n',i,i);
+    fprintf(fid, '   *ELASTMOD %0.10f \n',E_cmg_layers(i));
+    fprintf(fid, '   *POISSRATIO %0.10f \n',nu_cmg_layers(i));
 end
 
-fprintf(fid, '*STRESS3D  *ALL ** %d float \n', numel(Sv_cmg));
+fprintf(fid, '\n*GEOTYPE   IJK\n');
+fprintf(fid, '**         i       j       k       rocktype\n');
+for k=1:nz
+    fprintf(fid, '           1:%d   1:%d   %d         %d\n',nx,ny,k,k);
+end
+
+% @ Insitu stress may shouldn't be averaged
+fprintf(fid, '\n*STRESS3D  *ALL ** %d float \n', numel(Sv_cmg));
 fprintf(fid, '%0.10f %0.10f %0.10f %0.10f %0.10f %0.10f \n', InsituStress );
 fprintf(fid, '\n');
-% fprintf(fid, '*PERMI *ALL ** %d float \n', numel(perm_cmg));
-% fprintf(fid, '%0.10f %0.10f %0.10f %0.10f %0.10f %0.10f %0.10f %0.10f %0.10f %0.10f\n', perm_cmg);
-% fprintf(fid, '\n');
 
 
 % @ Overburden loads are represented by distributed load on the        
@@ -115,6 +118,7 @@ for j=1:100
        fprintf(fid, '        1     2    3    4     %d ** top\n',Sv_top(ii));
    end
 end
+
 
 % @ Body force of the reservoir is expressed through the combination    
 %   of two keywords : *GLOADBC and SPECGRAV 
